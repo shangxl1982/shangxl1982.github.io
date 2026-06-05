@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package org.hyperkv.lsmplus.proto;
+
+import "common.proto";
+
+// ===== 全局统一的 Key/Value 定义 =====
+
+// 统一的键消息（所有模块共用）
+message KeyProto {
+    KeyType key_type = 1;             // 键类型
+    bytes key_data = 2;               // 键数据
+}
+
+// 统一的值消息（所有模块共用）
+message ValueProto {
+    ValueType value_type = 1;         // 值类型（NORMAL 或 TOMBSTONE）
+    bytes value_data = 2;             // 值数据（TOMBSTONE 时为空）
+}
+
+// 键值对消息（Journal、LeafPage、IndexPage 统一使用）
+// 叶页：key + value；索引页：key + location
+message KeyValuePairProto {
+    KeyProto key = 1;                 // 键
+    oneof entry_value {
+        ValueProto value = 2;         // 叶页数据 / Journal 操作数据
+        SegmentLocationProto location = 3; // 索引页子页位置
+    }
+}
+
+// SegmentLocation 消息（固定 28 bytes）
+message SegmentLocationProto {
+    int64 chunk_id_most_sig = 1;     // Chunk UUID 高 64 位
+    int64 chunk_id_least_sig = 2;    // Chunk UUID 低 64 位
+    int64 offset = 3;                // 偏移量 (supports negative for virtual locations)
+    int32 length = 4;                // 数据长度
+}

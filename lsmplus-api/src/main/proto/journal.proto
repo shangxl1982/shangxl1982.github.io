@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package org.hyperkv.lsmplus.proto;
+
+import "common.proto";
+import "keyvalue.proto";
+
+// ===== Journal Entry 序列化 =====
+
+// 统一的 Journal Entry 消息（Write Item 的 Body）
+// 通过 operation_type 区分操作类型，通过 repeated KeyValuePairProto entries 表达一个或多个操作
+message JournalEntryProto {
+    OperationType operation_type = 1; // 操作类型
+    int64 timestamp = 2;             // 操作时间戳
+    int64 sequence_number = 3;       // 序列号
+    repeated KeyValuePairProto entries = 4; // 操作列表
+    // PUT: 1 个 entry（key + NORMAL value）
+    // DELETE: 1 个 entry（key + TOMBSTONE value）
+    // BATCH: N 个 entry（每个可以是 NORMAL 或 TOMBSTONE）
+}
+
+// Journal 回放点
+message JournalReplayPointProto {
+    int64 region_major = 1;          // Region 主版本号
+    int64 region_minor = 2;          // Region 次版本号
+    int32 offset = 3;                // 偏移量
+}

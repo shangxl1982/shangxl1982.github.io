@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package org.hyperkv.lsmplus.proto;
+
+import "common.proto";
+import "keyvalue.proto";
+
+// ===== Page 数据序列化 =====
+
+// 完整的 Page 消息
+// Page 数据直接复用 KeyValuePairProto
+// 叶页：每个 entry 的 oneof 为 value（ValueProto）
+// 索引页：每个 entry 的 oneof 为 location（SegmentLocationProto）
+//
+// entry_offsets: each offset is a 4-byte little-endian integer recording the
+// starting byte offset of the corresponding entry within the entries field.
+// The offsets are stored as a contiguous byte array so they can be loaded
+// into an int[] directly via array copy.
+// entries: concatenated serialised KeyValuePairProto bytes.
+message PageProto {
+    PageType page_type = 1;          // 页面类型
+    int64 page_id = 2;               // 页面 ID (positive for leaf, negative for index)
+    int32 used_size = 3;             // 当前已使用字节数
+    bytes entry_offsets = 4;         // entry offsets in page data, each offset is 4 bytes little-endian integer
+    bytes entries = 5;               // 条目列表, concat with KeyValuePairProto
+}

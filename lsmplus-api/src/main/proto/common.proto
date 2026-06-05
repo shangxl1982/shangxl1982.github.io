@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package org.hyperkv.lsmplus.proto;
+
+// ===== 全局统一的枚举定义 =====
+
+// 键类型枚举
+enum KeyType {
+    ORDERED_BYTES = 0;  // 有序字节（直接排序）
+    CUSTOM = 1;         // 自定义格式
+    
+    // 保留字段编号 100-200 用于未来扩展
+    reserved 100 to 200;
+}
+
+// 值类型枚举
+enum ValueType {
+    NORMAL = 0;         // 正常值
+    TOMBSTONE = 1;      // 删除标记
+    
+    // 保留字段编号 100-200 用于未来扩展
+    reserved 100 to 200;
+}
+
+// Journal 操作类型
+enum OperationType {
+    PUT = 0;            // 插入/更新（entries 含 1 个元素）
+    DELETE = 1;         // 删除（entries 含 1 个元素，value 为 TOMBSTONE）
+    BATCH = 2;          // 批量（entries 含多个元素）
+    
+    // 保留字段编号 100-200 用于未来扩展
+    reserved 100 to 200;
+}
+
+// Page 类型枚举
+enum PageType {
+    PAGE_LEAF = 0;           // 叶页
+    PAGE_BRANCH = 1;         // 分支页（中间索引页）
+    PAGE_ROOT = 2;           // 根页（顶层索引页）
+    
+    // 保留字段编号 100-200 用于未来扩展
+    reserved 100 to 200;
+}
+
+// Chunk 类型枚举
+enum ChunkType {
+    CHUNK_INDEX = 0;    // 索引页数据
+    CHUNK_LEAF = 1;     // 叶页数据
+    CHUNK_JOURNAL = 2;  // Journal 数据
+    
+    // 保留字段编号 100-200 用于未来扩展
+    reserved 100 to 200;
+}
+
+// Chunk 状态枚举
+enum ChunkStatus {
+    OPEN = 0;      // 可写状态
+    SEALED = 1;    // 已封存
+    DELETING = 2;  // 正在删除
+    DELETED = 3;   // 已删除
+    
+    // 保留字段编号 100-200 用于未来扩展
+    reserved 100 to 200;
+}
+
+// 备份类型枚举
+enum BackupType {
+    FULL = 0;           // 全量备份
+    INCREMENTAL = 1;    // 增量备份
+    
+    // 保留字段编号 100-200 用于未来扩展
+    reserved 100 to 200;
+}
+
+// 压缩类型枚举（ValueProto.value_data 可选压缩）
+enum CompressionType {
+    NONE = 0;           // 无压缩
+    GZIP = 1;           // GZIP 压缩
+    LZ4 = 2;            // LZ4 压缩
+    SNAPPY = 3;         // Snappy 压缩
+    
+    // 保留字段编号 100-200 用于未来扩展
+    reserved 100 to 200;
+}

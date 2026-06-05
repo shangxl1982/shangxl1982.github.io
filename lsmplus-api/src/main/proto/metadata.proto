@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+package org.hyperkv.lsmplus.proto;
+
+import "common.proto";
+import "keyvalue.proto";
+import "journal.proto";
+
+// ===== 元数据序列化 =====
+// 所有元数据文件统一使用 Protobuf 二进制格式存储（.pb 扩展名）
+// 持久化规则：xxx.pb.tmp → fsync → rename 为 xxx.pb → fsync 父目录
+
+// ===== Tree 元数据（tree-metadata.pb）=====
+
+// tree-metadata.pb 文件的顶层消息
+// make index max size, leaf max size configurable as configure option. also 
+// max_versions is configurable as configure option. a default value is 30.
+message TreeMetadataFile {
+    int32 magic = 1;                   // 魔数，固定值用于格式识别
+    int32 format_version = 2;          // 文件格式版本号
+    repeated TreeMetadataEntry entries = 3;  // 版本列表（按版本降序）
+}
+
+message PageIdTracker {
+    int64 next_index_page_id = 1; // 下一个索引页 ID
+    int64 next_leaf_page_id = 2;    // 下一个叶页 ID
+}
+
+// 单个 Tree 版本的元数据
+message TreeMetadataEntry {
+    int64 version = 1;               // 版本号
+    SegmentLocationProto root_location = 2; // 根页位置（始终为 IndexPage）
+    JournalReplayPointProto replay_point = 3; // Journal 回放点
+    PageIdTracker page_id_tracker = 4; // 页面 ID 跟踪器
+    int64 mns = 5;                    // Min Not Sealed number
+    int64 created_at = 6;             // 创建时间
+    TreeStats stats = 7;              // 统计信息
+}
+
+// 树统计信息
+message TreeStats {
+    int64 leaf_page_count = 1;       // 叶页数量
+    int64 index_page_count = 2;       // 索引页数量
+    int64 total_entries = 3;          // 总条目数
+    int32 height = 4;                 // 树高度
+    int64 total_size = 5;            // 总大小
+}
+
+// ===== Journal Region 索引（journal-region.pb）=====
+
+// journal-region.pb 文件的顶层消息
+message JournalRegionIndex {
+    int32 magic = 1;                   // 魔数
+    int32 format_version = 2;          // 文件格式版本号
+    int64 instance_id_most_sig = 3;    // KVStore 实例 UUID 高 64 位
+    int64 instance_id_least_sig = 4;   // KVStore 实例 UUID 低 64 位
+    repeated JournalRegionEntry entries = 5; // Region 条目列表
+}
+
+// 单个 Region 条目
+message JournalRegionEntry {
+    int64 region_major = 1;           // Region 主版本号
+    int64 region_minor = 2;           // Region 次版本号
+    int64 chunk_id_most_sig = 3;      // 对应 Chunk UUID 高 64 位
+    int64 chunk_id_least_sig = 4;     // 对应 Chunk UUID 低 64 位
+    int32 offset = 5;                 // Chunk 内偏移量
+    int32 length = 6;                 // Region 数据长度（-1 表示整个 Chunk）
+    int64 created_at = 7;             // 创建时间戳
+}
+
+// ===== Chunk 元数据（chunk-metadata.pb）=====
+
+// chunk-metadata.pb 文件的顶层消息
+message ChunkMetadataFile {
+    int32 magic = 1;                   // 魔数
+    int32 format_version = 2;          // 文件格式版本号
+    repeated ChunkMetadata chunks = 3; // Chunk 元数据列表
+}
+
+// 单个 Chunk 的元数据
+message ChunkMetadata {
+    int64 chunk_id_most_sig = 1;      // Chunk UUID 高 64 位
+    int64 chunk_id_least_sig = 2;     // Chunk UUID 低 64 位
+    int64 chunk_number = 3;           // Chunk 编号
+    ChunkType chunk_type = 4;         // Chunk 类型
+    int64 owner_id_most_sig = 5;      // Owner UUID 高 64 位
+    int64 owner_id_least_sig = 6;     // Owner UUID 低 64 位
+    int64 namespace_id_most_sig = 7;  // Namespace UUID 高 64 位
+    int64 namespace_id_least_sig = 8; // Namespace UUID 低 64 位
+    ChunkStatus status = 9;           // Chunk 状态
+    int64 created_at = 10;            // 创建时间
+    int64 keep_alive_time = 11;       // 保活时间
+    int64 total_size = 12;            // 总大小
+    int64 used_size = 13;             // 已使用大小
+    int64 occupancy_size = 14;        // 有效数据大小
+    int32 pending_gc = 15;            // Partial GC 等待标志
+}
+
+// ===== Occupancy 记录（occupancy/{version}.pb）=====
+
+// occupancy/{version}.pb 文件的顶层消息
+message OccupancyRecord {
+    int64 version = 1;                // Tree 版本号
+    int64 mns = 2;                    // 当前 MNS
+    int64 timestamp = 3;              // 记录时间戳
+    repeated OccupancyDelta deltas = 4;          // Chunk occupancy 变更
+    repeated DecommissionPage decommission_pages = 5; // 被 decommission 的 Page
+}
+
+message OccupancyDelta {
+    int64 chunk_id_most_sig = 1;      // Chunk UUID 高 64 位
+    int64 chunk_id_least_sig = 2;     // Chunk UUID 低 64 位
+    int64 delta_size = 3;             // 变更大小（正数增加，负数减少）
+}
+
+message DecommissionPage {
+    int64 chunk_id_most_sig = 1;      // Chunk UUID 高 64 位
+    int64 chunk_id_least_sig = 2;     // Chunk UUID 低 64 位
+    int32 offset = 3;                 // 页面在 Chunk 中的偏移
+    int32 length = 4;                 // 页面长度
+}
+
+// ===== 备份元数据（backup.metadata.pb）=====
+
+// backup.metadata.pb 文件的顶层消息
+message BackupMetadata {
+    string backup_id = 1;             // 备份唯一标识
+    BackupType backup_type = 2;       // 备份类型
+    int64 created_at = 3;             // 创建时间
+    int64 tree_version = 4;           // 关联的 Tree 版本
+    int64 tree_mns = 5;               // 关联的 MNS
+    JournalReplayPointProto replay_point = 6;  // Journal 回放起点
+    JournalReplayPointProto cutoff_point = 7;  // Journal 截止点
+    string parent_backup_id = 8;      // 父备份 ID（增量备份）
+    TreeStats tree_stats = 9;         // Tree 统计信息
+    bytes checksum = 10;              // 备份校验和
+}
