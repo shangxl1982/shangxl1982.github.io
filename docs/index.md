@@ -2,12 +2,12 @@
 layout: home
 
 hero:
-  name: AI Techs
+  name: Shangxl's Tech Blog
   text: 20+ Years of Engineering
   tagline: From Storage Systems to AI Technologies
   image:
     src: /logo.png
-    alt: AI Techs
+    alt: Shangxl's Tech Blog
   actions:
     - theme: brand
       text: Explore Blog

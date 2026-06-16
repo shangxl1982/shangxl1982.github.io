@@ -5,7 +5,7 @@ import { katex as katexPlugin } from '@mdit/plugin-katex'
 export default defineConfig({
   base: '/aitechs/',
   lang: 'en-US',
-  title: 'AI Techs',
+  title: 'Shangxl\'s Tech Blog',
   description: '20+ Years of Engineering — From Storage Systems to AI Technologies',
   ignoreDeadLinks: true,
   appearance: true,
