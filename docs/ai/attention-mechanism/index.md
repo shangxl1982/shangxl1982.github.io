@@ -2,9 +2,7 @@
 
 ## Transformer Attention Formula
 
-$$
-\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
-$$
+$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$
 
 ### Why Softmax?
 - Converts raw scores into probability distribution (sum=1)

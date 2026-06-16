@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { MermaidMarkdown } from 'vitepress-plugin-mermaid'
-import katex from 'markdown-it-katex'
+import { katex as katexPlugin } from '@mdit/plugin-katex'
 
 export default defineConfig({
   base: '/aitechs/',
@@ -8,10 +8,15 @@ export default defineConfig({
   title: 'AI Techs',
   description: '20+ Years of Engineering — From Storage Systems to AI Technologies',
   ignoreDeadLinks: true,
+  appearance: true,
+
+  head: [
+    ['link', { rel: 'stylesheet', href: '/aitechs/katex.min.css' }],
+  ],
 
   markdown: {
     config(md) {
-      md.use(katex)
+      md.use(katexPlugin)
       md.use(MermaidMarkdown)
     },
   },
@@ -158,5 +163,9 @@ export default defineConfig({
     search: {
       provider: 'local',
     },
+
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/shangxiaole' },
+    ],
   },
 })

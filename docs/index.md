@@ -5,10 +5,39 @@ hero:
   name: AI Techs
   text: 20+ Years of Engineering
   tagline: From Storage Systems to AI Technologies
+  image:
+    src: /logo.png
+    alt: AI Techs
   actions:
     - theme: brand
       text: Explore Blog
       link: /blog/
+    - theme: alt
+      text: AI Topics
+      link: /ai/
+    - theme: alt
+      text: Traditional Tech
+      link: /traditional/
+
+features:
+  - title: 🧠 AI & ML
+    details: Model architecture, inference optimization, attention mechanisms, fine-tuning, multi-agent systems, RAG, evaluation
+    link: /ai/
+  - title: 🗄️ Storage Systems
+    details: Distributed metadata systems, KV stores, LSM-Trees, columnar storage, Parquet, data placement
+    link: /traditional/storage-engines/
+  - title: 🌐 Distributed Systems
+    details: Raft consensus, distributed transactions, consistency protocols, coordination services
+    link: /traditional/distributed-systems/
+  - title: 📊 Big Data
+    details: Apache Spark, Data Lake/Lakehouse, query engines, streaming, columnar formats
+    link: /traditional/big-data/
+  - title: ⚡ Inference Engines
+    details: vLLM, SGLang, KVCache optimization, LMCache, PD separation
+    link: /ai/inference-optimization/
+  - title: 🔧 Agent Frameworks
+    details: LangGraph, function calling, model routing, agentic memory, MCP protocols
+    link: /ai/agent-frameworks/
 ---
 
 ## About Me

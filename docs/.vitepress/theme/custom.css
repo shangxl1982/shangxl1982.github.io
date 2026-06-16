@@ -1,0 +1,94 @@
+/* ===== Brand Colors ===== */
+:root {
+  --vp-c-brand-1: #6366f1;
+  --vp-c-brand-2: #818cf8;
+  --vp-c-brand-3: #4f46e5;
+  --vp-c-brand-soft: rgba(99, 102, 241, 0.14);
+
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(135deg, #6366f1 0%, #06b6d4 50%, #10b981 100%);
+  --vp-home-hero-image-background-image: linear-gradient(135deg, #6366f1 0%, #06b6d4 50%, #10b981 100%);
+  --vp-home-hero-image-filter: blur(120px);
+
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-bg: #6366f1;
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-hover-bg: #4f46e5;
+}
+
+.dark {
+  --vp-c-brand-1: #818cf8;
+  --vp-c-brand-2: #6366f1;
+  --vp-c-brand-3: #a5b4fc;
+  --vp-c-brand-soft: rgba(129, 140, 248, 0.16);
+
+  --vp-home-hero-image-background-image: linear-gradient(135deg, #4f46e5 0%, #0891b2 50%, #059669 100%);
+}
+
+/* ===== Typography ===== */
+:root {
+  --vp-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ===== Navbar ===== */
+.hero-name {
+  background: var(--vp-home-hero-name-background);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.VPHero .name span {
+  background: linear-gradient(135deg, #6366f1 0%, #06b6d4 50%, #10b981 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+/* ===== Header Anchors ===== */
+.vp-doc h1, .vp-doc h2 {
+  border-top: none;
+  padding-top: 24px;
+}
+
+.vp-doc h1 {
+  background: linear-gradient(135deg, #6366f1, #06b6d4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2rem;
+}
+
+/* ===== Code blocks ===== */
+.vp-doc [class*='language-'] {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== Custom Blockquotes ===== */
+.vp-doc blockquote {
+  border-left: 4px solid var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 20px;
+}
+
+/* ===== Cards on nav ===== */
+.VPFeature {
+  border-radius: 12px !important;
+  border: 1px solid var(--vp-c-divider) !important;
+  transition: all 0.3s ease !important;
+}
+
+.VPFeature:hover {
+  border-color: var(--vp-c-brand-1) !important;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+  transform: translateY(-2px);
+}
+
+/* ===== Sidebar ===== */
+.VPSidebarItem .text {
+  transition: color 0.2s ease;
+}
+
+.VPSidebarItem .text:hover {
+  color: var(--vp-c-brand-1);
+}
