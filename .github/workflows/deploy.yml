@@ -41,6 +41,20 @@ jobs:
         run: |
           mkdir -p deployment/aitechs
           mv docs/.vitepress/dist/* deployment/aitechs/
+          # Copy 404 to root for GitHub Pages error handling
+          cp deployment/aitechs/404.html deployment/404.html
+          # Root redirect to /aitechs/
+          cat > deployment/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta http-equiv="refresh" content="0;url=/aitechs/">
+          </head>
+          <body>
+            <p>Redirecting to <a href="/aitechs/">AI Techs</a>...</p>
+          </body>
+          </html>
+          EOF
           touch deployment/.nojekyll
 
       - name: Setup Pages
