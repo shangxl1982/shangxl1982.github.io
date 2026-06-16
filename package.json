@@ -1,0 +1,32 @@
+{
+  "name": "shangxl1982.github.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/shangxiaole/shangxl1982.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@vuepress/bundler-vite": "^2.0.0-rc.30",
+    "@vuepress/client": "^2.0.0-rc.30",
+    "@vuepress/plugin-markdown-chart": "^2.0.0-rc.130",
+    "@vuepress/plugin-markdown-math": "^2.0.0-rc.130",
+    "@vuepress/plugin-search": "^2.0.0-rc.130",
+    "@vuepress/theme-default": "^2.0.0-rc.130",
+    "katex": "^0.17.0",
+    "mermaid": "^11.15.0",
+    "sass-embedded": "^1.100.0",
+    "vue": "^3.5.38",
+    "vue-router": "^5.1.0",
+    "vuepress": "^2.0.0-rc.30"
+  }
+}
