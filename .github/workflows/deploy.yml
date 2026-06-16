@@ -37,13 +37,19 @@ jobs:
       - name: Build VuePress site
         run: npm run docs:build
 
+      - name: Prepare artifact for Pages
+        run: |
+          mkdir -p deployment/aitechs
+          mv docs/.vuepress/dist/* deployment/aitechs/
+          touch deployment/.nojekyll
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/.vuepress/dist
+          path: deployment
 
   deploy:
     environment:
