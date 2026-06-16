@@ -1,10 +1,14 @@
 ---
-home: true
-heroText: Welcome to My Blog
-tagline: 20+ Years of Engineering — From Firmware to Storage Systems and Moving AI Technologies
-actionText: Explore →
-actionLink: /blog/
-footer: © 2026
+layout: home
+
+hero:
+  name: AI Techs
+  text: 20+ Years of Engineering
+  tagline: From Storage Systems to AI Technologies
+  actions:
+    - theme: brand
+      text: Explore Blog
+      link: /blog/
 ---
 
 ## About Me
@@ -17,8 +21,10 @@ Long‑standing responsibility for component‑level architecture and developmen
 
 ### Work Experience
 
-**DellEMC** | Senior Software Principal Engineer  (I9+), DMTS/TLC Member, ECS Hyperscale Distributed Metadata System Architect (2018/10 – Present)
+**DellEMC** | Senior Software Principal Engineer (I9+), DMTS/TLC Member, ECS Hyperscale Distributed Metadata System Architect (2018/10 – Present)
+
 **Lenovo DCG** | Advisory Software Engineer, BMC firmware leader (2014/10 – 2018/10)
+
 **IBM STG** | Advisory Software Engineer, BMC firmware leader (2006/04 – 2014/09)
 
 ---
@@ -32,5 +38,3 @@ Distributed systems, storage engines, big data, file systems, columnar storage, 
 
 ### [AI Tech](/ai/)
 Model architecture, inference optimization, attention mechanisms, fine-tuning & training, RAG, multi-agent systems, evaluation, and more.
-
-Get started by exploring my [blog](/blog/).

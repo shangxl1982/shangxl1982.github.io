@@ -34,13 +34,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build VuePress site
+      - name: Build VitePress site
         run: npm run docs:build
 
       - name: Prepare artifact for Pages
         run: |
           mkdir -p deployment/aitechs
-          mv docs/.vuepress/dist/* deployment/aitechs/
+          mv docs/.vitepress/dist/* deployment/aitechs/
           touch deployment/.nojekyll
 
       - name: Setup Pages
